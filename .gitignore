@@ -1,0 +1,27 @@
+# ---- 构建产物 ----
+build/
+out/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+*.o
+*.obj
+*.a
+*.lib
+*.exe
+*.out
+Makefile
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+
+# ---- 编辑器 ----
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# ---- 基准 / 测试产物 ----
+*.log
+*.csv
+!tests/**/*.csv
