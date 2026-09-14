@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: cmake + ctest (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: Configure
+        run: cmake -S . -B out -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build out --parallel
+
+      - name: Unit tests
+        run: ctest --test-dir out --output-on-failure
+
+      - name: Benchmark smoke (n=16384)
+        run: ./out/bench_softmax 16384 20
